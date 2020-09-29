@@ -30,7 +30,7 @@ public Customer updateCustomer(Customer customer)
 }
 public boolean isAadharNoExists(long aadhar)
 {
-	if(customerDao.findByAadhar(aadhar).size()>0)
+	if(customerDao.findByAadhar(aadhar).isEmpty())
 		return true;
 	else
 		return false;

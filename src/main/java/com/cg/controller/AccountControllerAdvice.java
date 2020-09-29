@@ -21,10 +21,10 @@ import com.cg.eceptions.AccountNoNotFoundException;
 @ControllerAdvice
 public class AccountControllerAdvice {
 	  @ExceptionHandler(Exception.class)
-	  public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
+	  public final ResponseEntity<String> handleAllExceptions(Exception ex, WebRequest request) {
 	    ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
 	        request.getDescription(false));
-	    return new ResponseEntity<Object>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+	    return new ResponseEntity<>(exceptionResponse.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	  }
 	
 	@ExceptionHandler(AccountNoNotFoundException.class)
@@ -43,11 +43,10 @@ public class AccountControllerAdvice {
      System.out.println();
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
-	  protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-	     HttpStatus status, WebRequest request) {
+	  protected ResponseEntity<String> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
 	      ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), "Validation Failed",
 	        ex.getBindingResult().toString());
-	    return new ResponseEntity<Object>(exceptionResponse, HttpStatus.BAD_REQUEST);
+	    return new ResponseEntity<>(exceptionResponse.getMessage(), HttpStatus.BAD_REQUEST);
 	  } 
 	
 }

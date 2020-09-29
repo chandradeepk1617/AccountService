@@ -20,7 +20,7 @@ private AccountRepository accountDao;
 	public Account addAccount(Customer customer) 
 	{
 		Account account = new Account();
-		if(customerService.findByAadhar(customer.getAadhar()).size()==0)
+		if(customerService.findByAadhar(customer.getAadhar()).isEmpty())
 		{
 		customerService.addCustomer(customer);
 		
@@ -65,7 +65,7 @@ private AccountRepository accountDao;
   public boolean isAccountNoExists(long accountNo)
   {
 	  List<Account> account = accountDao.findByAccountNo(accountNo);
-		 if(account.size()==0)
+		 if(account.isEmpty())
 		 {
 			
 			 return false;
@@ -83,12 +83,12 @@ private AccountRepository accountDao;
 
   }
   public Account updateAccount(Account account) 
-  {
-	  if(isAccountNoExists(account.getAccountNo()))
-	  return accountDao.saveAndFlush(account);
-	  else
-		  throw new AccountNoNotFoundException("Account with number"+account.getAccountNo()+" does not exists");
-  }
+	{
+		if (isAccountNoExists(account.getAccountNo()))
+			return accountDao.saveAndFlush(account);
+		else
+			throw new AccountNoNotFoundException("Account with number" + account.getAccountNo() + " does not exists");
+	  }
   public Account getAccountByAccountNo(long accountNo)
   {
 	  if(isAccountNoExists(accountNo))
@@ -100,7 +100,7 @@ private AccountRepository accountDao;
   }
   public Customer updateCustomer(Customer customer,long accountNo) 
   {
-	  if(accountDao.findByAccountNo(accountNo).size()>0)
+	  if(accountDao.findByAccountNo(accountNo).isEmpty())
 	  {
 		  return customerService.updateCustomer(customer);
 	  }
